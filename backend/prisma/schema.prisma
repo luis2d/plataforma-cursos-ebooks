@@ -1,0 +1,67 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                        String    @id @default(uuid())
+  nombre                    String
+  correo                    String    @unique
+  contrasenaHash            String
+  correoVerificado          Boolean   @default(false)
+  esAdmin                   Boolean   @default(false)
+  fechaCreacion             DateTime  @default(now())
+
+  tokenVerificacion         String?   @unique
+  tokenVerificacionExpira   DateTime?
+
+  tokenResetPassword        String?   @unique
+  tokenResetPasswordExpira  DateTime?
+
+  orders                    Order[]
+
+  @@map("users")
+}
+
+model Product {
+  id             String   @id @default(uuid())
+  nombre         String
+  descripcion    String
+  precioCentavos Int
+  contenidoUrl   String
+  imagenUrl      String?
+  fechaCreacion  DateTime @default(now())
+
+  orders         Order[]
+
+  @@map("products")
+}
+
+model Order {
+  id              String     @id @default(uuid())
+  userId          String
+  productId       String
+  estadoPago      EstadoPago @default(PENDIENTE)
+  stripePaymentId String?    @unique
+  fechaCreacion   DateTime   @default(now())
+
+  user            User       @relation(fields: [userId], references: [id])
+  product         Product    @relation(fields: [productId], references: [id])
+
+  @@map("orders")
+}
+
+enum EstadoPago {
+  PENDIENTE
+  PAGADO
+  FALLIDO
+}
