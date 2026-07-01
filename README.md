@@ -94,4 +94,26 @@ Endpoints de verificación:
 - `GET /health` — confirma que el servidor está arriba
 - `GET /health/db` — confirma que hay conexión con PostgreSQL
 
-Variables de entorno en `backend/.env` (ver `backend/.env.example`): `DATABASE_URL`, `PORT`, `JWT_SECRET`, `FRONTEND_URL`.
+Variables de entorno en `backend/.env` (ver `backend/.env.example`): `DATABASE_URL`, `PORT`, `JWT_SECRET`, `FRONTEND_URL`, `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`.
+
+## Frontend — cómo correrlo
+
+```bash
+cd frontend
+npm install
+npm run dev   # arranca en http://localhost:5173
+```
+
+Variables de entorno en `frontend/.env` (ver `frontend/.env.example`): `VITE_API_URL`.
+
+## Stripe — pagos en modo test
+
+Para que el checkout funcione en desarrollo local necesitas tener el [Stripe CLI](https://stripe.com/docs/stripe-cli) corriendo en una terminal aparte, reenviando los webhooks a tu backend local (Stripe no puede mandarle eventos directo a `localhost`):
+
+```bash
+stripe listen --forward-to localhost:4000/webhooks/stripe
+```
+
+El comando imprime un `whsec_...` — cópialo en `backend/.env` como `STRIPE_WEBHOOK_SECRET` y reinicia el backend. Mientras ese comando esté corriendo, cualquier compra de prueba (tarjeta `4242 4242 4242 4242`, cualquier fecha futura y CVC) va a confirmar el pago y marcar la orden como `PAGADO` automáticamente.
+
+La restricted key (`STRIPE_SECRET_KEY`) necesita permisos de escritura en **Checkout Sessions** (para el backend) y en **Debugging Tools** (solo para poder correr `stripe listen` localmente).

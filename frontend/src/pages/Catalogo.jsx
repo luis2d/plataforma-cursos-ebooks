@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import api from "../api/client";
+import { useAuth } from "../context/AuthContext";
 
 function formatearPrecio(centavos) {
   return (centavos / 100).toLocaleString("es-MX", { style: "currency", currency: "USD" });
@@ -9,6 +11,9 @@ export default function Catalogo() {
   const [productos, setProductos] = useState([]);
   const [error, setError] = useState("");
   const [cargando, setCargando] = useState(true);
+  const [comprandoId, setComprandoId] = useState(null);
+  const { usuario } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     api
@@ -18,12 +23,28 @@ export default function Catalogo() {
       .finally(() => setCargando(false));
   }, []);
 
+  async function handleComprar(productoId) {
+    if (!usuario) {
+      navigate("/login");
+      return;
+    }
+
+    setComprandoId(productoId);
+    try {
+      const { data } = await api.post(`/checkout/${productoId}`);
+      window.location.href = data.url;
+    } catch {
+      setError("No se pudo iniciar el pago, intenta de nuevo");
+      setComprandoId(null);
+    }
+  }
+
   if (cargando) return <p className="p-6 text-gray-500">Cargando catálogo...</p>;
-  if (error) return <p className="p-6 text-red-600">{error}</p>;
 
   return (
     <div className="p-6">
       <h1 className="text-2xl font-semibold text-gray-900 mb-6">Catálogo</h1>
+      {error && <p className="text-red-600 text-sm mb-4">{error}</p>}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {productos.map((producto) => (
           <div
@@ -41,11 +62,11 @@ export default function Catalogo() {
                   {formatearPrecio(producto.precioCentavos)}
                 </span>
                 <button
-                  disabled
-                  title="Los pagos se integran en la Fase 4"
-                  className="px-3 py-1.5 rounded-md bg-gray-300 text-gray-600 text-sm cursor-not-allowed"
+                  onClick={() => handleComprar(producto.id)}
+                  disabled={comprandoId === producto.id}
+                  className="px-3 py-1.5 rounded-md bg-gray-900 text-white text-sm hover:bg-gray-700 disabled:opacity-50"
                 >
-                  Comprar
+                  {comprandoId === producto.id ? "Redirigiendo..." : "Comprar"}
                 </button>
               </div>
             </div>
