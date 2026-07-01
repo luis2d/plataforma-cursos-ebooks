@@ -6,7 +6,10 @@ function errorHandler(err, req, res, next) {
   }
 
   const status = err.status || 500;
-  res.status(status).json({ error: err.message || "Error interno del servidor" });
+  const esErrorInesperado = status === 500 && process.env.NODE_ENV === "production";
+  const mensaje = esErrorInesperado ? "Error interno del servidor" : err.message || "Error interno del servidor";
+
+  res.status(status).json({ error: mensaje });
 }
 
 module.exports = errorHandler;

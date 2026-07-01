@@ -15,7 +15,7 @@ const {
 const router = Router();
 
 router.post("/registro", authLimiter, registro);
-router.post("/verificar-correo", verificarCorreo);
+router.post("/verificar-correo", authLimiter, verificarCorreo);
 router.post("/login", authLimiter, login);
 router.post("/logout", logout);
 router.get("/me", requireAuth, me);

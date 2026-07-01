@@ -1,5 +1,6 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const ms = require("ms");
 
 const prisma = require("../lib/prisma");
 const { generarTokenSeguro } = require("../utils/tokens");
@@ -19,7 +20,7 @@ const COOKIE_OPTIONS = {
   httpOnly: true,
   secure: process.env.NODE_ENV === "production",
   sameSite: "lax",
-  maxAge: 7 * 24 * 60 * 60 * 1000,
+  maxAge: ms(process.env.JWT_EXPIRES_IN || "7d"),
 };
 
 function usuarioPublico(user) {

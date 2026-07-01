@@ -49,15 +49,18 @@ Este es un proyecto de **aprendizaje**, no un producto en producción. La idea e
 
 ## Seguridad — requisitos mínimos
 
-- Toda validación de pago, precios y permisos se hace en el **backend**, nunca se confía en el frontend
-- Contraseñas siempre con **hash** (bcrypt), nunca texto plano
-- **Rate limiting** en endpoints de login/registro para evitar fuerza bruta
-- Validación de inputs en backend con **Zod** o **Joi**
-- Variables sensibles (claves de Stripe, DB, JWT secret) en `.env`, nunca en el repositorio (`.gitignore`)
-- **HTTPS** en todo momento
-- **CORS** configurado de forma restrictiva (sin `*` en producción)
-- Webhooks de Stripe verificados con su firma secreta
-- Protección contra inyección SQL (mitigado por el uso de Prisma) y XSS
+- [x] Toda validación de pago, precios y permisos se hace en el **backend**, nunca se confía en el frontend
+- [x] Contraseñas siempre con **hash** (bcrypt), nunca texto plano
+- [x] **Rate limiting** en endpoints de login/registro/checkout para evitar fuerza bruta y abuso
+- [x] Validación de inputs en backend con **Zod**
+- [x] Variables sensibles (claves de Stripe, DB, JWT secret) en `.env`, nunca en el repositorio (`.gitignore`)
+- [ ] **HTTPS** en todo momento (pendiente hasta el deploy — en local no aplica; el hosting elegido en la Fase 6 lo da por defecto)
+- [x] **CORS** configurado de forma restrictiva (sin `*`, un solo origen permitido vía `FRONTEND_URL`)
+- [x] Webhooks de Stripe verificados con su firma secreta
+- [x] Protección contra inyección SQL (mitigado por el uso de Prisma) y XSS (React escapa por defecto, sin `dangerouslySetInnerHTML` en el código)
+- [x] Headers de seguridad HTTP con **helmet** (oculta `X-Powered-By`, `X-Frame-Options`, `X-Content-Type-Options`, etc.)
+- [x] Manejo de errores: en producción los errores 500 no filtran detalles internos al cliente (solo se loguean en el servidor)
+- [x] Promoción a administrador solo por script de línea de comandos, nunca por API (evita auto-escalación de privilegios)
 
 ## Modelos de base de datos (borrador inicial)
 
