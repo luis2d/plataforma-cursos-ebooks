@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import api from "../../api/client";
+import Button from "../../components/ui/Button";
+import { Input, Textarea } from "../../components/ui/Input";
 
 const FORM_VACIO = { nombre: "", descripcion: "", precioCentavos: "", contenidoUrl: "", imagenUrl: "" };
 
@@ -71,23 +73,21 @@ export default function AdminProductos() {
 
       <form onSubmit={handleSubmit} className="border border-gray-200 rounded-lg p-4 mb-8 flex flex-col gap-3">
         <h2 className="font-medium text-gray-900">{editandoId ? "Editar producto" : "Nuevo producto"}</h2>
-        <input
+        <Input
           name="nombre"
           placeholder="Nombre"
           value={form.nombre}
           onChange={handleChange}
           required
-          className="border border-gray-300 rounded-md px-3 py-2"
         />
-        <textarea
+        <Textarea
           name="descripcion"
           placeholder="Descripción"
           value={form.descripcion}
           onChange={handleChange}
           required
-          className="border border-gray-300 rounded-md px-3 py-2"
         />
-        <input
+        <Input
           name="precioCentavos"
           type="number"
           min="1"
@@ -95,36 +95,27 @@ export default function AdminProductos() {
           value={form.precioCentavos}
           onChange={handleChange}
           required
-          className="border border-gray-300 rounded-md px-3 py-2"
         />
-        <input
+        <Input
           name="contenidoUrl"
           placeholder="URL del contenido descargable"
           value={form.contenidoUrl}
           onChange={handleChange}
           required
-          className="border border-gray-300 rounded-md px-3 py-2"
         />
-        <input
+        <Input
           name="imagenUrl"
           placeholder="URL de la imagen (opcional)"
           value={form.imagenUrl}
           onChange={handleChange}
-          className="border border-gray-300 rounded-md px-3 py-2"
         />
         {error && <p className="text-red-600 text-sm">{error}</p>}
         <div className="flex gap-2">
-          <button type="submit" className="px-4 py-2 rounded-md bg-gray-900 text-white hover:bg-gray-700">
-            {editandoId ? "Guardar cambios" : "Crear producto"}
-          </button>
+          <Button type="submit">{editandoId ? "Guardar cambios" : "Crear producto"}</Button>
           {editandoId && (
-            <button
-              type="button"
-              onClick={cancelarEdicion}
-              className="px-4 py-2 rounded-md border border-gray-300 text-gray-700"
-            >
+            <Button type="button" variante="secundario" onClick={cancelarEdicion}>
               Cancelar
-            </button>
+            </Button>
           )}
         </div>
       </form>
@@ -140,18 +131,12 @@ export default function AdminProductos() {
               <p className="text-sm text-gray-600">{formatearPrecio(producto.precioCentavos)}</p>
             </div>
             <div className="flex gap-2">
-              <button
-                onClick={() => handleEditar(producto)}
-                className="px-3 py-1.5 rounded-md border border-gray-300 text-sm text-gray-700"
-              >
+              <Button size="sm" variante="secundario" onClick={() => handleEditar(producto)}>
                 Editar
-              </button>
-              <button
-                onClick={() => handleEliminar(producto.id)}
-                className="px-3 py-1.5 rounded-md border border-red-300 text-sm text-red-600"
-              >
+              </Button>
+              <Button size="sm" variante="peligro" onClick={() => handleEliminar(producto.id)}>
                 Eliminar
-              </button>
+              </Button>
             </div>
           </div>
         ))}

@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import Button from "../components/ui/Button";
+import { Input } from "../components/ui/Input";
 
 export default function Login() {
   const [form, setForm] = useState({ correo: "", contrasena: "" });
@@ -31,34 +33,33 @@ export default function Login() {
     <div className="max-w-sm mx-auto p-6">
       <h1 className="text-xl font-semibold text-gray-900 mb-6">Iniciar sesión</h1>
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-        <input
+        <Input
           name="correo"
           type="email"
           placeholder="Correo"
           value={form.correo}
           onChange={handleChange}
           required
-          className="border border-gray-300 rounded-md px-3 py-2"
         />
-        <input
+        <Input
           name="contrasena"
           type="password"
           placeholder="Contraseña"
           value={form.contrasena}
           onChange={handleChange}
           required
-          className="border border-gray-300 rounded-md px-3 py-2"
         />
         {error && <p className="text-red-600 text-sm">{error}</p>}
-        <button
-          type="submit"
-          disabled={cargando}
-          className="bg-gray-900 text-white rounded-md py-2 hover:bg-gray-700 disabled:opacity-50"
-        >
+        <Button type="submit" disabled={cargando} className="w-full">
           {cargando ? "Entrando..." : "Iniciar sesión"}
-        </button>
+        </Button>
       </form>
       <p className="text-sm text-gray-600 mt-4">
+        <Link to="/olvide-password" className="text-gray-900 underline">
+          ¿Olvidaste tu contraseña?
+        </Link>
+      </p>
+      <p className="text-sm text-gray-600 mt-2">
         ¿No tienes cuenta?{" "}
         <Link to="/registro" className="text-gray-900 underline">
           Regístrate

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import api from "../api/client";
 
@@ -6,12 +6,19 @@ export default function VerificarCorreo() {
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
   const [estado, setEstado] = useState("verificando");
+  const tokenProcesado = useRef(null);
 
   useEffect(() => {
     if (!token) {
       setEstado("sin-token");
       return;
     }
+    // El token es de un solo uso en el backend; sin este guard, el doble
+    // llamado de useEffect en StrictMode (dev) quema el token en la primera
+    // llamada y la segunda lo ve inválido, pisando el estado "ok" con error.
+    if (tokenProcesado.current === token) return;
+    tokenProcesado.current = token;
+
     api
       .post("/auth/verificar-correo", { token })
       .then(() => setEstado("ok"))

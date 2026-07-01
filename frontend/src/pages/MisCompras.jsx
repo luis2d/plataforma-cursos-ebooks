@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import api from "../api/client";
+import Spinner from "../components/ui/Spinner";
+import { botonClases } from "../components/ui/Button";
 
 function formatearPrecio(centavos) {
   return (centavos / 100).toLocaleString("es-MX", { style: "currency", currency: "USD" });
@@ -24,7 +26,7 @@ export default function MisCompras() {
       .finally(() => setCargando(false));
   }, []);
 
-  if (cargando) return <p className="p-6 text-gray-500">Cargando...</p>;
+  if (cargando) return <Spinner />;
   if (error) return <p className="p-6 text-red-600">{error}</p>;
 
   return (
@@ -50,7 +52,7 @@ export default function MisCompras() {
                   href={orden.producto.contenidoUrl}
                   target="_blank"
                   rel="noreferrer"
-                  className="px-3 py-1.5 rounded-md bg-gray-900 text-white text-sm hover:bg-gray-700"
+                  className={botonClases("primario", "sm")}
                 >
                   Descargar
                 </a>

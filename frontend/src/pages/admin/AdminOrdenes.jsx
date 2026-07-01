@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import api from "../../api/client";
+import Spinner from "../../components/ui/Spinner";
 
 function formatearPrecio(centavos) {
   return (centavos / 100).toLocaleString("es-MX", { style: "currency", currency: "USD" });
@@ -16,11 +17,14 @@ export default function AdminOrdenes() {
       .finally(() => setCargando(false));
   }, []);
 
-  if (cargando) return <p className="p-6 text-gray-500">Cargando...</p>;
+  if (cargando) return <Spinner />;
 
   return (
     <div className="p-6">
       <h1 className="text-2xl font-semibold text-gray-900 mb-6">Órdenes</h1>
+      {ordenes.length === 0 ? (
+        <p className="text-gray-600">Todavía no hay órdenes registradas.</p>
+      ) : (
       <div className="overflow-x-auto max-w-5xl">
         <table className="w-full text-sm text-left border border-gray-200 rounded-lg overflow-hidden">
           <thead className="bg-gray-50 text-gray-600">
@@ -49,6 +53,7 @@ export default function AdminOrdenes() {
           </tbody>
         </table>
       </div>
+      )}
     </div>
   );
 }

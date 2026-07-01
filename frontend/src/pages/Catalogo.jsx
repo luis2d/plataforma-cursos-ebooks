@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../api/client";
 import { useAuth } from "../context/AuthContext";
+import Button from "../components/ui/Button";
+import Spinner from "../components/ui/Spinner";
 
 function formatearPrecio(centavos) {
   return (centavos / 100).toLocaleString("es-MX", { style: "currency", currency: "USD" });
@@ -39,12 +41,15 @@ export default function Catalogo() {
     }
   }
 
-  if (cargando) return <p className="p-6 text-gray-500">Cargando catálogo...</p>;
+  if (cargando) return <Spinner texto="Cargando catálogo..." />;
 
   return (
     <div className="p-6">
       <h1 className="text-2xl font-semibold text-gray-900 mb-6">Catálogo</h1>
       {error && <p className="text-red-600 text-sm mb-4">{error}</p>}
+      {productos.length === 0 ? (
+        <p className="text-gray-600">Todavía no hay productos disponibles.</p>
+      ) : (
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {productos.map((producto) => (
           <div
@@ -61,18 +66,19 @@ export default function Catalogo() {
                 <span className="font-semibold text-gray-900">
                   {formatearPrecio(producto.precioCentavos)}
                 </span>
-                <button
+                <Button
+                  size="sm"
                   onClick={() => handleComprar(producto.id)}
                   disabled={comprandoId === producto.id}
-                  className="px-3 py-1.5 rounded-md bg-gray-900 text-white text-sm hover:bg-gray-700 disabled:opacity-50"
                 >
                   {comprandoId === producto.id ? "Redirigiendo..." : "Comprar"}
-                </button>
+                </Button>
               </div>
             </div>
           </div>
         ))}
       </div>
+      )}
     </div>
   );
 }
