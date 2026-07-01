@@ -6,6 +6,8 @@ const healthRouter = require("./routes/health");
 const authRouter = require("./routes/auth");
 const productsRouter = require("./routes/products");
 const checkoutRouter = require("./routes/checkout");
+const ordersRouter = require("./routes/orders");
+const adminRouter = require("./routes/admin");
 const { stripeWebhook } = require("./controllers/webhookController");
 const errorHandler = require("./middleware/errorHandler");
 
@@ -29,6 +31,8 @@ app.use("/health", healthRouter);
 app.use("/auth", authRouter);
 app.use("/products", productsRouter);
 app.use("/checkout", checkoutRouter);
+app.use("/orders", ordersRouter);
+app.use("/admin", adminRouter);
 
 app.use(errorHandler);
 

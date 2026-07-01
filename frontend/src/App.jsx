@@ -6,6 +6,10 @@ import Registro from "./pages/Registro";
 import VerificarCorreo from "./pages/VerificarCorreo";
 import CompraExitosa from "./pages/CompraExitosa";
 import CompraCancelada from "./pages/CompraCancelada";
+import MisCompras from "./pages/MisCompras";
+import AdminProductos from "./pages/admin/AdminProductos";
+import AdminOrdenes from "./pages/admin/AdminOrdenes";
+import { RutaProtegida, RutaAdmin } from "./components/RutaProtegida";
 
 export default function App() {
   return (
@@ -18,6 +22,30 @@ export default function App() {
         <Route path="/verificar-correo" element={<VerificarCorreo />} />
         <Route path="/compra-exitosa" element={<CompraExitosa />} />
         <Route path="/compra-cancelada" element={<CompraCancelada />} />
+        <Route
+          path="/mis-compras"
+          element={
+            <RutaProtegida>
+              <MisCompras />
+            </RutaProtegida>
+          }
+        />
+        <Route
+          path="/admin/productos"
+          element={
+            <RutaAdmin>
+              <AdminProductos />
+            </RutaAdmin>
+          }
+        />
+        <Route
+          path="/admin/ordenes"
+          element={
+            <RutaAdmin>
+              <AdminOrdenes />
+            </RutaAdmin>
+          }
+        />
       </Routes>
     </div>
   );

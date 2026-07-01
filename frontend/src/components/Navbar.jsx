@@ -18,6 +18,19 @@ export default function Navbar() {
       <div className="flex items-center gap-4 text-sm">
         {usuario ? (
           <>
+            {usuario.esAdmin && (
+              <>
+                <Link to="/admin/productos" className="text-gray-700 hover:text-gray-900">
+                  Admin: productos
+                </Link>
+                <Link to="/admin/ordenes" className="text-gray-700 hover:text-gray-900">
+                  Admin: órdenes
+                </Link>
+              </>
+            )}
+            <Link to="/mis-compras" className="text-gray-700 hover:text-gray-900">
+              Mis compras
+            </Link>
             <span className="text-gray-600">Hola, {usuario.nombre}</span>
             <button
               onClick={handleLogout}

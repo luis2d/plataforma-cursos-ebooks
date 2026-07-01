@@ -16,24 +16,24 @@ Este es un proyecto de **aprendizaje**, no un producto en producción. La idea e
 ## Funcionalidades
 
 ### Usuarios
-- [ ] Registro de cuenta (nombre, correo, contraseña)
-- [ ] Verificación de cuenta por correo (link/token de confirmación)
-- [ ] Login seguro (sesión con cookies httpOnly o JWT)
-- [ ] Recuperación de contraseña por correo
-- [ ] Panel de usuario con historial de compras y acceso al contenido comprado
+- [x] Registro de cuenta (nombre, correo, contraseña)
+- [x] Verificación de cuenta por correo (link/token de confirmación)
+- [x] Login seguro (sesión con cookies httpOnly o JWT)
+- [x] Recuperación de contraseña por correo
+- [x] Panel de usuario con historial de compras y acceso al contenido comprado
 
 ### Catálogo
-- [ ] Listado de productos con detalle (nombre, descripción, precio, imagen)
+- [x] Listado de productos con detalle (nombre, descripción, precio, imagen)
 - [ ] Búsqueda/filtro básico
 
 ### Pagos
-- [ ] Checkout con Stripe (modo test)
-- [ ] Confirmación de pago vía webhook (validado en backend, no en frontend)
-- [ ] Registro de la orden/compra en base de datos tras pago confirmado
+- [x] Checkout con Stripe (modo test)
+- [x] Confirmación de pago vía webhook (validado en backend, no en frontend)
+- [x] Registro de la orden/compra en base de datos tras pago confirmado
 
 ### Administración
-- [ ] Panel simple para crear/editar/eliminar productos
-- [ ] Ver órdenes/ventas realizadas
+- [x] Panel simple para crear/editar/eliminar productos
+- [x] Ver órdenes/ventas realizadas
 
 ## Stack tecnológico
 
@@ -67,11 +67,11 @@ Este es un proyecto de **aprendizaje**, no un producto en producción. La idea e
 
 ## Roadmap por fases
 
-1. **Fase 1** — Backend base + base de datos (modelos: User, Product, Order)
-2. **Fase 2** — Autenticación completa (registro, verificación por correo, login, sesión)
-3. **Fase 3** — Frontend básico conectado al backend (catálogo, registro, login)
-4. **Fase 4** — Integración de Stripe (checkout + webhook de confirmación)
-5. **Fase 5** — Panel de usuario (mis compras) y panel de administración
+1. ✅ **Fase 1** — Backend base + base de datos (modelos: User, Product, Order)
+2. ✅ **Fase 2** — Autenticación completa (registro, verificación por correo, login, sesión)
+3. ✅ **Fase 3** — Frontend básico conectado al backend (catálogo, registro, login)
+4. ✅ **Fase 4** — Integración de Stripe (checkout + webhook de confirmación)
+5. ✅ **Fase 5** — Panel de usuario (mis compras) y panel de administración
 6. **Fase 6** — Endurecimiento de seguridad, pulido de UI, deploy
 
 ## Notas
@@ -117,3 +117,15 @@ stripe listen --forward-to localhost:4000/webhooks/stripe
 El comando imprime un `whsec_...` — cópialo en `backend/.env` como `STRIPE_WEBHOOK_SECRET` y reinicia el backend. Mientras ese comando esté corriendo, cualquier compra de prueba (tarjeta `4242 4242 4242 4242`, cualquier fecha futura y CVC) va a confirmar el pago y marcar la orden como `PAGADO` automáticamente.
 
 La restricted key (`STRIPE_SECRET_KEY`) necesita permisos de escritura en **Checkout Sessions** (para el backend) y en **Debugging Tools** (solo para poder correr `stripe listen` localmente).
+
+## Panel de usuario y administración
+
+- `/mis-compras` (requiere login): historial de compras del usuario, con link de descarga solo si la orden está `PAGADO`.
+- `/admin/productos` y `/admin/ordenes` (requiere `esAdmin = true`): CRUD de productos y listado de todas las órdenes/ventas.
+
+No existe una forma de auto-asignarse admin desde la app (por seguridad). Para convertir un usuario existente en administrador:
+
+```bash
+cd backend
+npm run make-admin -- correo@ejemplo.com
+```
