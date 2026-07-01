@@ -4,6 +4,7 @@ const cookieParser = require("cookie-parser");
 
 const healthRouter = require("./routes/health");
 const authRouter = require("./routes/auth");
+const productsRouter = require("./routes/products");
 const errorHandler = require("./middleware/errorHandler");
 
 const app = express();
@@ -19,6 +20,7 @@ app.use(cookieParser());
 
 app.use("/health", healthRouter);
 app.use("/auth", authRouter);
+app.use("/products", productsRouter);
 
 app.use(errorHandler);
 
