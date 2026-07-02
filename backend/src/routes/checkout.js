@@ -6,6 +6,6 @@ const { crearSesion } = require("../controllers/checkoutController");
 
 const router = Router();
 
-router.post("/:productId", checkoutLimiter, requireAuth, crearSesion);
+router.post("/", checkoutLimiter, requireAuth, crearSesion);
 
 module.exports = router;

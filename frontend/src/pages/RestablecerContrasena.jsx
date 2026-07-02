@@ -48,7 +48,7 @@ export default function RestablecerContrasena() {
     return (
       <div className="max-w-sm mx-auto p-6 text-center">
         <h1 className="text-xl font-semibold text-gray-900 mb-2">Contraseña actualizada</h1>
-        <Link to="/login" className="text-gray-900 underline">
+        <Link to="/login" className="text-ink underline hover:text-forest">
           Inicia sesión
         </Link>
       </div>

@@ -1,1 +1,37 @@
 @import "tailwindcss";
+
+@theme {
+  --color-cream: #f7f2e8;
+  --color-ink: #221d13;
+  --color-forest: #3c6b4a;
+  --color-forest-dark: #2e5439;
+}
+
+body {
+  font-family: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+}
+
+button:not(:disabled),
+[role="button"]:not(:disabled) {
+  cursor: pointer;
+}
+
+@keyframes flt {
+  0%,
+  100% {
+    transform: translateY(0) rotate(var(--r, 0deg));
+  }
+  50% {
+    transform: translateY(-14px) rotate(var(--r, 0deg));
+  }
+}
+
+@keyframes flt2 {
+  0%,
+  100% {
+    transform: translateY(-8px) rotate(var(--r, 0deg));
+  }
+  50% {
+    transform: translateY(6px) rotate(var(--r, 0deg));
+  }
+}

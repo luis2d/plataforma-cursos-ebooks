@@ -9,14 +9,17 @@ import RestablecerContrasena from "./pages/RestablecerContrasena";
 import CompraExitosa from "./pages/CompraExitosa";
 import CompraCancelada from "./pages/CompraCancelada";
 import MisCompras from "./pages/MisCompras";
+import Noticias from "./pages/Noticias";
+import NoticiaDetalle from "./pages/NoticiaDetalle";
 import AdminProductos from "./pages/admin/AdminProductos";
 import AdminOrdenes from "./pages/admin/AdminOrdenes";
+import AdminNoticias from "./pages/admin/AdminNoticias";
 import NotFound from "./pages/NotFound";
 import { RutaProtegida, RutaAdmin } from "./components/RutaProtegida";
 
 export default function App() {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-cream">
       <Navbar />
       <Routes>
         <Route path="/" element={<Catalogo />} />
@@ -27,6 +30,8 @@ export default function App() {
         <Route path="/restablecer-password" element={<RestablecerContrasena />} />
         <Route path="/compra-exitosa" element={<CompraExitosa />} />
         <Route path="/compra-cancelada" element={<CompraCancelada />} />
+        <Route path="/noticias" element={<Noticias />} />
+        <Route path="/noticias/:id" element={<NoticiaDetalle />} />
         <Route
           path="/mis-compras"
           element={
@@ -48,6 +53,14 @@ export default function App() {
           element={
             <RutaAdmin>
               <AdminOrdenes />
+            </RutaAdmin>
+          }
+        />
+        <Route
+          path="/admin/noticias"
+          element={
+            <RutaAdmin>
+              <AdminNoticias />
             </RutaAdmin>
           }
         />

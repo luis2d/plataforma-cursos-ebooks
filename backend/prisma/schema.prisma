@@ -51,12 +51,13 @@ model Order {
   userId          String
   productId       String
   estadoPago      EstadoPago @default(PENDIENTE)
-  stripePaymentId String?    @unique
+  stripePaymentId String?
   fechaCreacion   DateTime   @default(now())
 
   user            User       @relation(fields: [userId], references: [id])
   product         Product    @relation(fields: [productId], references: [id])
 
+  @@unique([stripePaymentId, productId])
   @@map("orders")
 }
 
@@ -64,4 +65,16 @@ enum EstadoPago {
   PENDIENTE
   PAGADO
   FALLIDO
+}
+
+model Noticia {
+  id            String   @id @default(uuid())
+  titulo        String
+  resumen       String
+  contenido     String
+  autor         String?
+  imagenUrl     String?
+  fechaCreacion DateTime @default(now())
+
+  @@map("noticias")
 }

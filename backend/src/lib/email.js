@@ -1,9 +1,20 @@
-function enviarCorreo({ to, subject, body }) {
-  console.log("\n--- 📧 Correo simulado ---");
-  console.log(`Para: ${to}`);
-  console.log(`Asunto: ${subject}`);
-  console.log(body);
-  console.log("--------------------------\n");
+const resend = require("./resend");
+
+const REMITENTE = "Cursos & Ebooks <onboarding@resend.dev>";
+
+function enviarCorreo({ to, subject, html }) {
+  // El SDK de Resend no rechaza la promesa cuando la API devuelve un error
+  // (ej. restricción de modo sandbox) — hay que revisar el campo `error` a mano.
+  resend.emails
+    .send({ from: REMITENTE, to, subject, html })
+    .then((resultado) => {
+      if (resultado.error) {
+        console.error("Error enviando correo:", resultado.error.message);
+      }
+    })
+    .catch((err) => {
+      console.error("Error enviando correo:", err.message);
+    });
 }
 
 function enviarCorreoVerificacion({ to, token }) {
@@ -11,7 +22,7 @@ function enviarCorreoVerificacion({ to, token }) {
   enviarCorreo({
     to,
     subject: "Verifica tu cuenta",
-    body: `Confirma tu correo entrando a este link: ${link}`,
+    html: `<p>Confirma tu correo entrando a este link: <a href="${link}">${link}</a></p>`,
   });
 }
 
@@ -20,7 +31,7 @@ function enviarCorreoResetPassword({ to, token }) {
   enviarCorreo({
     to,
     subject: "Restablece tu contraseña",
-    body: `Entra a este link para elegir una nueva contraseña: ${link}`,
+    html: `<p>Entra a este link para elegir una nueva contraseña: <a href="${link}">${link}</a></p>`,
   });
 }
 

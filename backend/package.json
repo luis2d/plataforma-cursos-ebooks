@@ -9,6 +9,8 @@
     "prisma:migrate": "prisma migrate dev",
     "prisma:studio": "prisma studio",
     "seed": "node prisma/seed.js",
+    "seed-extra": "node scripts/seedContenido.js",
+    "seed-imagenes": "node scripts/agregarImagenesYMasProductos.js",
     "make-admin": "node scripts/hacerAdmin.js"
   },
   "keywords": [],
@@ -26,6 +28,7 @@
     "helmet": "^8.2.0",
     "jsonwebtoken": "^9.0.3",
     "ms": "^2.1.3",
+    "resend": "^6.16.0",
     "stripe": "^22.3.0",
     "zod": "^4.4.3"
   },

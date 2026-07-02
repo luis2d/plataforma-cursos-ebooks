@@ -55,13 +55,13 @@ export default function Login() {
         </Button>
       </form>
       <p className="text-sm text-gray-600 mt-4">
-        <Link to="/olvide-password" className="text-gray-900 underline">
+        <Link to="/olvide-password" className="text-ink underline hover:text-forest">
           ¿Olvidaste tu contraseña?
         </Link>
       </p>
       <p className="text-sm text-gray-600 mt-2">
         ¿No tienes cuenta?{" "}
-        <Link to="/registro" className="text-gray-900 underline">
+        <Link to="/registro" className="text-ink underline hover:text-forest">
           Regístrate
         </Link>
       </p>

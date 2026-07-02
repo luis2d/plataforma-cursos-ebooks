@@ -29,8 +29,8 @@ export default function OlvideContrasena() {
       <div className="max-w-sm mx-auto p-6 text-center">
         <h1 className="text-xl font-semibold text-gray-900 mb-2">Revisa tu correo</h1>
         <p className="text-gray-600 text-sm">
-          Si el correo existe, te enviamos un enlace para restablecer tu contraseña. En desarrollo, el
-          enlace aparece en la consola del backend en vez de llegar a un correo real.
+          Si el correo existe, te enviamos un enlace para restablecer tu contraseña. Revisá tu bandeja
+          de entrada (y la carpeta de spam, por las dudas).
         </p>
       </div>
     );
@@ -57,7 +57,7 @@ export default function OlvideContrasena() {
         </Button>
       </form>
       <p className="text-sm text-gray-600 mt-4">
-        <Link to="/login" className="text-gray-900 underline">
+        <Link to="/login" className="text-ink underline hover:text-forest">
           Volver a iniciar sesión
         </Link>
       </p>

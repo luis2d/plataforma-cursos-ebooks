@@ -43,7 +43,7 @@ Este es un proyecto de **aprendizaje**, no un producto en producción. La idea e
 | Backend | Node.js + Express (o NestJS) |
 | Base de datos | PostgreSQL + Prisma (ORM) |
 | Autenticación | bcrypt (hash de contraseñas), JWT o cookies httpOnly |
-| Envío de correos | Resend o SendGrid (verificación de cuenta, recuperación de contraseña) |
+| Envío de correos | Resend (verificación de cuenta, recuperación de contraseña) |
 | Pagos | Stripe (modo test) |
 | Hosting (futuro) | Frontend en Vercel · Backend/DB en Railway o Render |
 
@@ -97,7 +97,11 @@ Endpoints de verificación:
 - `GET /health` — confirma que el servidor está arriba
 - `GET /health/db` — confirma que hay conexión con PostgreSQL
 
-Variables de entorno en `backend/.env` (ver `backend/.env.example`): `DATABASE_URL`, `PORT`, `JWT_SECRET`, `FRONTEND_URL`, `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`.
+Variables de entorno en `backend/.env` (ver `backend/.env.example`): `DATABASE_URL`, `PORT`, `JWT_SECRET`, `FRONTEND_URL`, `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, `RESEND_API_KEY`.
+
+## Correos — verificación de cuenta y recuperación de contraseña
+
+Los correos de verificación de cuenta y recuperación de contraseña se envían de verdad con [Resend](https://resend.com). Sin verificar un dominio propio (no hace falta para este proyecto), el plan gratuito de Resend solo permite mandar correos a la casilla con la que te registraste ahí — para probar el registro o "olvidé mi contraseña", usá ese mismo correo.
 
 ## Frontend — cómo correrlo
 

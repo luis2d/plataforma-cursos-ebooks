@@ -8,6 +8,7 @@ const authRouter = require("./routes/auth");
 const productsRouter = require("./routes/products");
 const checkoutRouter = require("./routes/checkout");
 const ordersRouter = require("./routes/orders");
+const noticiasRouter = require("./routes/noticias");
 const adminRouter = require("./routes/admin");
 const { stripeWebhook } = require("./controllers/webhookController");
 const { generalLimiter } = require("./middleware/rateLimiter");
@@ -42,6 +43,7 @@ app.use("/auth", authRouter);
 app.use("/products", productsRouter);
 app.use("/checkout", checkoutRouter);
 app.use("/orders", ordersRouter);
+app.use("/news", noticiasRouter);
 app.use("/admin", adminRouter);
 
 app.use((req, res) => {

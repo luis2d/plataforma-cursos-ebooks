@@ -31,7 +31,7 @@ export default function VerificarCorreo() {
       {estado === "ok" && (
         <>
           <h1 className="text-xl font-semibold text-gray-900 mb-2">¡Cuenta verificada!</h1>
-          <Link to="/login" className="text-gray-900 underline">
+          <Link to="/login" className="text-ink underline hover:text-forest">
             Inicia sesión
           </Link>
         </>
