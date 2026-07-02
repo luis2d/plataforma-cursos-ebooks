@@ -19,7 +19,11 @@ const RESET_PASSWORD_HORAS = 1;
 const COOKIE_OPTIONS = {
   httpOnly: true,
   secure: process.env.NODE_ENV === "production",
-  sameSite: "lax",
+  // "none" hace falta en produccion porque frontend (Vercel) y backend (Railway)
+  // son dominios distintos (cross-site) y el navegador no reenvia cookies "lax"
+  // en peticiones fetch/XHR entre sitios. En local, frontend y backend comparten
+  // site (localhost), asi que "lax" alcanza.
+  sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
   maxAge: ms(process.env.JWT_EXPIRES_IN || "7d"),
 };
 
