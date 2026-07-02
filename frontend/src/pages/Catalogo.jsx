@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import api from "../api/client";
 import { useCart } from "../context/CartContext";
 import Button from "../components/ui/Button";
+import { Input } from "../components/ui/Input";
 import Spinner from "../components/ui/Spinner";
 
 function formatearPrecio(centavos) {
@@ -36,6 +37,7 @@ export default function Catalogo() {
   const [error, setError] = useState("");
   const [cargando, setCargando] = useState(true);
   const [imagenesConError, setImagenesConError] = useState({});
+  const [busqueda, setBusqueda] = useState("");
   const { items, agregarAlCarrito } = useCart();
 
   function marcarImagenConError(productoId) {
@@ -53,6 +55,14 @@ export default function Catalogo() {
   if (cargando) return <Spinner texto="Cargando catálogo..." />;
 
   const destacados = productos.slice(0, 3);
+  const terminoBusqueda = busqueda.trim().toLowerCase();
+  const productosFiltrados = terminoBusqueda
+    ? productos.filter(
+        (producto) =>
+          producto.nombre.toLowerCase().includes(terminoBusqueda) ||
+          producto.descripcion.toLowerCase().includes(terminoBusqueda)
+      )
+    : productos;
 
   function irAlCatalogo() {
     document.getElementById("catalogo")?.scrollIntoView({ behavior: "smooth" });
@@ -101,12 +111,24 @@ export default function Catalogo() {
       </section>
 
       <section id="catalogo" className="px-6 sm:px-14 pb-16 pt-10 border-t border-ink/10">
-        <h2 className="text-2xl font-bold text-ink mb-6">Catálogo</h2>
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+          <h2 className="text-2xl font-bold text-ink">Catálogo</h2>
+          <Input
+            type="search"
+            placeholder="Buscar por nombre o descripción..."
+            value={busqueda}
+            onChange={(e) => setBusqueda(e.target.value)}
+            className="w-full sm:w-72"
+            aria-label="Buscar productos"
+          />
+        </div>
         {productos.length === 0 ? (
           <p className="text-ink/60">Todavía no hay productos disponibles.</p>
+        ) : productosFiltrados.length === 0 ? (
+          <p className="text-ink/60">No encontramos productos que coincidan con "{busqueda}".</p>
         ) : (
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7 gap-3">
-            {productos.map((producto, indice) => {
+            {productosFiltrados.map((producto, indice) => {
               const portada = portadaDe(indice);
               const mostrarImagen = producto.imagenUrl && !imagenesConError[producto.id];
               const enCarrito = items.some((item) => item.id === producto.id);
